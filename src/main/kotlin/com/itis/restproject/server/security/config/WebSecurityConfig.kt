@@ -16,7 +16,6 @@ import org.springframework.web.filter.GenericFilterBean
 
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
-
 class WebSecurityConfig : WebSecurityConfigurerAdapter() {
 
     @Autowired

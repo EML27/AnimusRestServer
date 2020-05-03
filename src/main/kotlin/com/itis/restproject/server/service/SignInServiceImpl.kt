@@ -5,12 +5,10 @@ import com.itis.restproject.server.dto.general.TokenDto
 import com.itis.restproject.server.repo.UserRepository
 import io.jsonwebtoken.Jwts
 import io.jsonwebtoken.SignatureAlgorithm
-
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
-import org.springframework.core.env.Environment
+import org.springframework.security.access.AccessDeniedException
 import org.springframework.security.crypto.password.PasswordEncoder
-import org.springframework.security.access.AccessDeniedException;
 import org.springframework.stereotype.Component
 
 @Component
@@ -21,8 +19,8 @@ class SignInServiceImpl : SignInService {
     @Autowired
     lateinit var passwordEncoder: PasswordEncoder
 
-    @Autowired
-    lateinit var environment: Environment
+    @Value("\${jwt.secret}")
+    lateinit var secret: String
 
     override fun signIn(signInData: SignInDto): TokenDto {
         var userOptional = userRepository.findUserByEmail(signInData.email)
@@ -34,7 +32,7 @@ class SignInServiceImpl : SignInService {
                         .setSubject(user.userId.toString())
                         .claim("name", user.userName)
                         .claim("role", user.role.name)
-                        .signWith(SignatureAlgorithm.HS256, environment.getProperty("jwt.secret"))
+                        .signWith(SignatureAlgorithm.HS256, secret)
                         .compact()
                 return TokenDto(token)
 

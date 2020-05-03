@@ -4,8 +4,7 @@ import com.itis.restproject.server.security.jwt.auth.JwtAuthentication
 import com.itis.restproject.server.security.jwt.details.UserDetailsImpl
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
-import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.core.env.Environment
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
@@ -16,10 +15,8 @@ import javax.naming.AuthenticationException
 @Component
 class JwtAuthenticationProvider : AuthenticationProvider {
 
-    @Autowired
-    lateinit var environment: Environment
-
-    var secret = environment.getProperty("jwt.secret")
+    @Value("\${jwt.secret}")
+    lateinit var secret: String
 
     @Throws(AuthenticationException::class)
     override fun authenticate(authentication: Authentication): Authentication? {
@@ -34,7 +31,7 @@ class JwtAuthenticationProvider : AuthenticationProvider {
         }
         // создаем UserDetails
         val userDetails: UserDetails = UserDetailsImpl(
-                claims.get("sub", String::class.java).toInt(),
+                claims["sub", String::class.java].toInt(),
                 claims["role", String::class.java],
                 claims["name", String::class.java])
         // аутентификация прошла успешно

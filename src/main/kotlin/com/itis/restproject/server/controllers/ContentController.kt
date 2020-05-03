@@ -2,11 +2,11 @@ package com.itis.restproject.server.controllers
 
 import com.fasterxml.jackson.databind.ObjectMapper
 import com.fasterxml.jackson.module.kotlin.readValue
-import com.itis.restproject.server.model.Title
 import com.itis.restproject.server.dto.response.TitleResponse
+import com.itis.restproject.server.model.Title
 import com.itis.restproject.server.repo.GenreRepository
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.core.env.Environment
+import org.springframework.beans.factory.annotation.Value
 import org.springframework.web.bind.annotation.*
 import java.net.URL
 
@@ -15,8 +15,8 @@ import java.net.URL
 @RequestMapping("content")
 class ContentController {
 
-    @Autowired
-    lateinit var environment: Environment
+    @Value("\${kodikToken}")
+    lateinit var kodikToken: String
 
     var repo = arrayListOf<Title>()
 
@@ -45,7 +45,7 @@ class ContentController {
     fun add(@PathVariable kinopoiskId: Int): String {
         val mapper = ObjectMapper()
         try {
-            var response = mapper.readValue<TitleResponse>(URL("https://kodikapi.com/search?token=${environment.getProperty("kodikToken")}&kinopoisk_id=${kinopoiskId}&with_material_data=true"))
+            var response = mapper.readValue<TitleResponse>(URL("https://kodikapi.com/search?token=${kodikToken}&kinopoisk_id=${kinopoiskId}&with_material_data=true"))
             var title = Title.createFromResponse(response, repository)
             repo.add(title)
         } catch (e: Exception) {

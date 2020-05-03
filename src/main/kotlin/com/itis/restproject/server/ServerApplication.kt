@@ -15,7 +15,9 @@ class ServerApplication {
         return BCryptPasswordEncoder()
     }
 
-    fun main(args: Array<String>) {
-        runApplication<ServerApplication>(*args)
-    }
+
+}
+
+fun main(args: Array<String>) {
+    runApplication<ServerApplication>(*args)
 }
