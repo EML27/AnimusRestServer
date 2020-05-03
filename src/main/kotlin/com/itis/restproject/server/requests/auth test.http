@@ -1,0 +1,15 @@
+POST http://localhost:8080/auth/signIn
+Content-Type: application/json
+
+{
+  "email": "emil.73@mail.ru",
+  "password": "password"
+}
+###
+
+GET http://localhost:8080/auth/self
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6IkVtaWwiLCJyb2xlIjoiQURNSU4ifQ.oXJArBuJ11uIpYLet0e89PiByWZGKXJZPOiKY3xS0RY
+###
+
+GET http://localhost:8080/users
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6IkVtaWwiLCJyb2xlIjoiQURNSU4ifQ.oXJArBuJ11uIpYLet0e89PiByWZGKXJZPOiKY3xS0RY

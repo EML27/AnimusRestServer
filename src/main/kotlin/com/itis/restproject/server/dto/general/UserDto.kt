@@ -3,7 +3,7 @@ package com.itis.restproject.server.dto.general
 import com.itis.restproject.server.model.User
 
 
-data class UserDto(var id: Int, var name: String, var email: String) {
+data class UserDto(var id: Int = 0, var name: String = "", var email: String = "") {
 
 
     companion object {

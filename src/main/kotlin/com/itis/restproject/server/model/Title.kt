@@ -23,6 +23,8 @@ class Title(val name: String,
 
 ) {
 
+
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val titleId: Int? = null

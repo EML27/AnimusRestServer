@@ -20,7 +20,7 @@ class JwtAuthenticationProvider : AuthenticationProvider {
 
     @Throws(AuthenticationException::class)
     override fun authenticate(authentication: Authentication): Authentication? {
-        val token: String = authentication.getName()
+        val token: String? = authentication.name
         val claims: Claims
         claims = try {
             // выполняю парсинг токена со своим секретным ключом
