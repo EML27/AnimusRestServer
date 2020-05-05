@@ -5,6 +5,7 @@ import com.itis.restproject.server.security.jwt.details.UserDetailsImpl
 import io.jsonwebtoken.Claims
 import io.jsonwebtoken.Jwts
 import org.springframework.beans.factory.annotation.Value
+import org.springframework.context.annotation.Scope
 import org.springframework.security.authentication.AuthenticationCredentialsNotFoundException
 import org.springframework.security.authentication.AuthenticationProvider
 import org.springframework.security.core.Authentication
@@ -12,6 +13,7 @@ import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Component
 import javax.naming.AuthenticationException
 
+@Scope(scopeName = "authentication")
 @Component
 class JwtAuthenticationProvider : AuthenticationProvider {
 

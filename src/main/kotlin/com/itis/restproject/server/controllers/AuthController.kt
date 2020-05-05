@@ -1,8 +1,11 @@
 package com.itis.restproject.server.controllers
 
 import com.itis.restproject.server.dto.general.SignInDto
+import com.itis.restproject.server.dto.general.SignUpDto
 import com.itis.restproject.server.dto.general.TokenDto
 import com.itis.restproject.server.dto.general.UserDto
+import com.itis.restproject.server.model.User
+import com.itis.restproject.server.repo.UserRepository
 import com.itis.restproject.server.security.jwt.details.UserDetailsImpl
 import com.itis.restproject.server.service.SignInService
 import org.springframework.beans.factory.annotation.Autowired
@@ -21,11 +24,14 @@ class AuthController {
     @Autowired
     lateinit var passwordEncoder: PasswordEncoder
 
+    @Autowired
+    lateinit var userRepository: UserRepository
+
     @PreAuthorize("isAuthenticated()")
     @GetMapping("self")
     fun getSelf(): ResponseEntity<UserDto>? {
         val authentication: Authentication = SecurityContextHolder.getContext().authentication
-        val userDetails = authentication.getDetails() as UserDetailsImpl
+        val userDetails = authentication.details as UserDetailsImpl
         println(userDetails)
         return ResponseEntity.ok(UserDto().also {
             it.name = userDetails.name
@@ -38,12 +44,24 @@ class AuthController {
     private lateinit var signInService: SignInService
 
     @PostMapping("/signIn")
-    public fun signIn(@RequestBody signInData: SignInDto): ResponseEntity<TokenDto> {
+    fun signIn(@RequestBody signInData: SignInDto): ResponseEntity<TokenDto> {
         return ResponseEntity.ok(signInService.signIn(signInData))
     }
 
     @GetMapping("/encode/{text}")
     fun encode(@PathVariable text: String): String {
         return passwordEncoder.encode(text)
+    }
+
+    @PostMapping("/signUp")
+    fun signUp(@RequestBody signUpDto: SignUpDto): ResponseEntity<TokenDto> {
+        val user = User().apply {
+            userName = signUpDto.username
+            email = signUpDto.email
+            passwordHash = passwordEncoder.encode(signUpDto.password)
+        }
+        userRepository.save(user)
+        val signInDto = SignInDto(signUpDto.email, signUpDto.password)
+        return ResponseEntity.ok(signInService.signIn(signInDto))
     }
 }

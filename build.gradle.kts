@@ -46,13 +46,16 @@ dependencies {
     implementation("org.springframework.boot:spring-boot-starter-security")
     implementation("org.springframework.security:spring-security-test")
 
-    implementation ("com.auth0:java-jwt:3.10.3")
+    implementation("com.auth0:java-jwt:3.10.3")
 
-    implementation (group= "io.springfox", name= "springfox-swagger2", version= "2.7.0")
-    implementation (group= "io.springfox", name= "springfox-swagger-ui", version= "2.7.0")
+    implementation(group = "io.springfox", name = "springfox-swagger2", version = "2.7.0")
+    implementation(group = "io.springfox", name = "springfox-swagger-ui", version = "2.7.0")
 
     // https://mvnrepository.com/artifact/io.jsonwebtoken/jjwt
-    implementation( group= "io.jsonwebtoken", name= "jjwt", version= "0.9.1")
+    implementation(group = "io.jsonwebtoken", name = "jjwt", version = "0.9.1")
+
+    // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
+    implementation(group = "org.slf4j", name = "slf4j-api", version = "1.7.25")
 
 }
 

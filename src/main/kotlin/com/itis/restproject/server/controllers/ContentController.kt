@@ -45,8 +45,8 @@ class ContentController {
     fun add(@PathVariable kinopoiskId: Int): String {
         val mapper = ObjectMapper()
         try {
-            var response = mapper.readValue<TitleResponse>(URL("https://kodikapi.com/search?token=${kodikToken}&kinopoisk_id=${kinopoiskId}&with_material_data=true"))
-            var title = Title.createFromResponse(response, repository)
+            val response = mapper.readValue<TitleResponse>(URL("https://kodikapi.com/search?token=${kodikToken}&kinopoisk_id=${kinopoiskId}&with_material_data=true"))
+            val title = Title.createFromResponse(response, repository)
             repo.add(title)
         } catch (e: Exception) {
             e.printStackTrace()
@@ -54,6 +54,4 @@ class ContentController {
         }
         return "Success"
     }
-
-
 }

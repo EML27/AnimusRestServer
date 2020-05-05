@@ -1,6 +1,7 @@
 package com.itis.restproject.server.security.jwt.filter
 
 import com.itis.restproject.server.security.jwt.auth.JwtAuthentication
+import org.springframework.context.annotation.Scope
 import org.springframework.security.core.Authentication
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Component
@@ -12,7 +13,7 @@ import javax.servlet.ServletRequest
 import javax.servlet.ServletResponse
 import javax.servlet.http.HttpServletRequest
 
-
+@Scope(scopeName = "authentication")
 @Component("jwtAuthenticationFilter")
 class JwtAuthenticationFilter : GenericFilterBean()  {
     @Throws(IOException::class, ServletException::class)
