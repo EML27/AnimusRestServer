@@ -23,7 +23,7 @@ class Title(val name: String,
 
 ) {
 
-
+    var currentlyPopular: Boolean = false
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -32,10 +32,11 @@ class Title(val name: String,
     companion object {
         fun createFromResponse(response: TitleResponse, repository: GenreRepository): Title {
             val set = HashSet<Genre>()
-            for (genre in response.results[0].materialData.genres) {
+            for (genre in response.results[0].materialData.genres ?: arrayListOf()) {
                 set.add(Genre.getGenreByName(genre, repository))
             }
-            return Title(response.results[0].title, Integer.valueOf(response.results[0].kinopoiskId), response.results[0].materialData.description, response.results[0].materialData.posterUrl, set, response.results[0].link)
+            return Title(response.results[0].title, Integer.valueOf(response.results[0].kinopoiskId), response.results[0].materialData.description
+                    ?: "", response.results[0].materialData.posterUrl ?: "", set, response.results[0].link)
         }
     }
 }

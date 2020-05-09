@@ -2,36 +2,33 @@ package com.itis.restproject.server.model
 
 import com.itis.restproject.server.repo.GenreRepository
 import lombok.NoArgsConstructor
-import org.springframework.beans.factory.annotation.Autowired
-import java.io.IOException
-import java.sql.SQLException
-import javax.persistence.Entity
-import javax.persistence.GeneratedValue
-import javax.persistence.GenerationType
-import javax.persistence.Id
+import javax.persistence.*
 
 
 @NoArgsConstructor
 @Entity(name = "genre")
 class Genre(var name: String) {
+    constructor() : this("")
+
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val genreId: Int? = null
 
-    constructor() : this("")
-
+    @ManyToMany(mappedBy = "genresTable")
+    var titles: Set<Title> = HashSet()
 
     companion object {
 
         fun getGenreByName(name: String, repository: GenreRepository): Genre {
 
-            return Genre(name).also {
-                try {
-                    repository.save(it)
-                } catch (e: Exception) {
-                }
+            val result = repository.findGenreByName(name)
+            return if (result.isPresent) {
+                result.get()
+            } else {
+                val newGenre = Genre(name)
+                repository.save(newGenre)
+                newGenre
             }
-
         }
     }
 }

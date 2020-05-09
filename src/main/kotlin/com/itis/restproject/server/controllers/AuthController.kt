@@ -4,6 +4,7 @@ import com.itis.restproject.server.dto.general.SignInDto
 import com.itis.restproject.server.dto.general.SignUpDto
 import com.itis.restproject.server.dto.general.TokenDto
 import com.itis.restproject.server.dto.general.UserDto
+import com.itis.restproject.server.model.Role
 import com.itis.restproject.server.model.User
 import com.itis.restproject.server.repo.UserRepository
 import com.itis.restproject.server.security.jwt.details.UserDetailsImpl
@@ -59,6 +60,7 @@ class AuthController {
             userName = signUpDto.username
             email = signUpDto.email
             passwordHash = passwordEncoder.encode(signUpDto.password)
+            role = Role.USER
         }
         userRepository.save(user)
         val signInDto = SignInDto(signUpDto.email, signUpDto.password)

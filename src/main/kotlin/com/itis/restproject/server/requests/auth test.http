@@ -13,3 +13,23 @@ Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6IkVtaWwiLCJyb2xlIjoi
 
 GET http://localhost:8080/users
 Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6IkVtaWwiLCJyb2xlIjoiQURNSU4ifQ.oXJArBuJ11uIpYLet0e89PiByWZGKXJZPOiKY3xS0RY
+###
+
+POST http://localhost:8080/content/add/1274280
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6IkVtaWwiLCJyb2xlIjoiQURNSU4ifQ.oXJArBuJ11uIpYLet0e89PiByWZGKXJZPOiKY3xS0RY
+###
+
+POST http://localhost:8080/auth/signUp
+Content-Type: application/json
+
+{
+  "username": "LolKek",
+  "email": "lolkek@mail.ru",
+  "password": "dragon"
+}
+
+###
+
+DELETE http://localhost:8080/users/6
+Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6IkVtaWwiLCJyb2xlIjoiQURNSU4ifQ.oXJArBuJ11uIpYLet0e89PiByWZGKXJZPOiKY3xS0RY
+###

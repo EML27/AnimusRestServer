@@ -1,57 +1,62 @@
 package com.itis.restproject.server.controllers
 
-import com.fasterxml.jackson.databind.ObjectMapper
-import com.fasterxml.jackson.module.kotlin.readValue
-import com.itis.restproject.server.dto.response.TitleResponse
-import com.itis.restproject.server.model.Title
-import com.itis.restproject.server.repo.GenreRepository
+import com.itis.restproject.server.dto.general.TitleDto
+import com.itis.restproject.server.security.jwt.details.UserDetailsImpl
+import com.itis.restproject.server.service.TitlesService
 import org.springframework.beans.factory.annotation.Autowired
-import org.springframework.beans.factory.annotation.Value
+import org.springframework.http.ResponseEntity
+import org.springframework.security.access.prepost.PreAuthorize
+import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.web.bind.annotation.*
-import java.net.URL
 
 
 @RestController
 @RequestMapping("content")
 class ContentController {
 
-    @Value("\${kodikToken}")
-    lateinit var kodikToken: String
-
-    var repo = arrayListOf<Title>()
+    var repo = arrayListOf<TitleDto>()
 
     @GetMapping
-    fun listOfAll(): List<Title> {
-        return repo
+    fun listOfAll(): List<TitleDto> {
+        return titlesService.getAll()
     }
 
+    @PreAuthorize("isAuthenticated()")
     @GetMapping("recommended")
-    fun listOfRecommendedForUserWithId(@RequestParam userId: Int): List<Title> {
-        //TODO: make recommendations list
-        return repo
+    fun listOfRecommendedForUserWithId(): List<TitleDto> {
+        val userInfo = SecurityContextHolder.getContext().authentication.details as UserDetailsImpl
+        TODO("Continue")
+
+
     }
 
     @GetMapping("popular")
-    fun listOfPopular(): List<Title> {
-        //TODO: make popular logic
-        return repo
+    fun listOfPopular(@RequestParam(required = false) size: Int?): List<TitleDto> {
+        val result = titlesService.getPopularTitles().shuffled()
+        return if (size == null || size <= 0) {
+            result
+        } else {
+            result.take(size)
+        }
+
+    }
+
+    @PreAuthorize("hasAuthority('ADMIN')")
+    @PostMapping("add/{kinopoiskId}")
+    fun add(@PathVariable kinopoiskId: Int): String {
+        try {
+            titlesService.addTitleByKId(kinopoiskId)
+            return "Success"
+        } catch (e: Exception) {
+            return "Error"
+        }
     }
 
     @Autowired
-    lateinit var repository: GenreRepository
+    lateinit var titlesService: TitlesService
 
-
-    @GetMapping("add/{kinopoiskId}")
-    fun add(@PathVariable kinopoiskId: Int): String {
-        val mapper = ObjectMapper()
-        try {
-            val response = mapper.readValue<TitleResponse>(URL("https://kodikapi.com/search?token=${kodikToken}&kinopoisk_id=${kinopoiskId}&with_material_data=true"))
-            val title = Title.createFromResponse(response, repository)
-            repo.add(title)
-        } catch (e: Exception) {
-            e.printStackTrace()
-            return "Error"
-        }
-        return "Success"
+    @GetMapping("{kinopoiskId}")
+    fun get(@PathVariable kinopoiskId: Int): ResponseEntity<TitleDto> {
+        return ResponseEntity.ok(titlesService.getTitleByKId(kinopoiskId))
     }
 }

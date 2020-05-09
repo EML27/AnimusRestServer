@@ -2,8 +2,7 @@ package com.itis.restproject.server.repo
 
 import com.itis.restproject.server.model.Genre
 import org.springframework.data.jpa.repository.JpaRepository
-
-import java.io.IOException
+import java.util.*
 
 interface GenreRepository : JpaRepository<Genre, Int> {
 
@@ -19,5 +18,5 @@ interface GenreRepository : JpaRepository<Genre, Int> {
 //        return res
 //    }
 
-    fun findGenreByName(name: String): Genre
+    fun findGenreByName(name: String): Optional<Genre>
 }
