@@ -57,6 +57,9 @@ dependencies {
     // https://mvnrepository.com/artifact/org.slf4j/slf4j-api
     implementation(group = "org.slf4j", name = "slf4j-api", version = "1.7.25")
 
+    // https://mvnrepository.com/artifact/io.projectreactor/reactor-core
+    implementation(group= "io.projectreactor", name= "reactor-core", version= "3.3.5.RELEASE")
+
 }
 
 tasks.withType<Test> {

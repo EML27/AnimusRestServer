@@ -13,12 +13,14 @@ class UsersController {
     @Autowired
     private lateinit var usersService: UsersService
 
+    @CrossOrigin("*")
     @PreAuthorize("isAuthenticated()")
     @GetMapping
     fun getUsers(): ResponseEntity<List<UserDto>> {
         return ResponseEntity.ok(usersService.getAllUsers())
     }
 
+    @CrossOrigin("*")
     @PreAuthorize("hasAuthority('ADMIN')")
     @DeleteMapping("/{user-id}")
     fun deleteUser(@PathVariable("user-id") userId: Int): ResponseEntity<Any?> {

@@ -1,3 +1,6 @@
-POST http://localhost:8080/content/add/1002686
+POST http://localhost:80/content/add/452973
 Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6IkVtaWwiLCJyb2xlIjoiQURNSU4ifQ.oXJArBuJ11uIpYLet0e89PiByWZGKXJZPOiKY3xS0RY
+###
+
+GET http://localhost:80/content/popular
 ###

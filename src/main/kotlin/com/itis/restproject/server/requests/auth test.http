@@ -1,4 +1,4 @@
-POST http://localhost:8080/auth/signIn
+POST http://localhost:80/auth/signIn
 Content-Type: application/json
 
 {
@@ -7,19 +7,19 @@ Content-Type: application/json
 }
 ###
 
-GET http://localhost:8080/auth/self
+GET http://localhost:80/auth/self
 Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6IkVtaWwiLCJyb2xlIjoiQURNSU4ifQ.oXJArBuJ11uIpYLet0e89PiByWZGKXJZPOiKY3xS0RY
 ###
 
-GET http://localhost:8080/users
+GET http://localhost:80/users
 Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6IkVtaWwiLCJyb2xlIjoiQURNSU4ifQ.oXJArBuJ11uIpYLet0e89PiByWZGKXJZPOiKY3xS0RY
 ###
 
-POST http://localhost:8080/content/add/1274280
+POST http://localhost:80/content/add/1274280
 Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6IkVtaWwiLCJyb2xlIjoiQURNSU4ifQ.oXJArBuJ11uIpYLet0e89PiByWZGKXJZPOiKY3xS0RY
 ###
 
-POST http://localhost:8080/auth/signUp
+POST http://localhost:80/auth/signUp
 Content-Type: application/json
 
 {
@@ -30,6 +30,6 @@ Content-Type: application/json
 
 ###
 
-DELETE http://localhost:8080/users/6
+DELETE http://localhost:80/users/6
 Authorization: eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIxIiwibmFtZSI6IkVtaWwiLCJyb2xlIjoiQURNSU4ifQ.oXJArBuJ11uIpYLet0e89PiByWZGKXJZPOiKY3xS0RY
 ###

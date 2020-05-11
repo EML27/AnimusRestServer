@@ -16,11 +16,13 @@ class ContentController {
 
     var repo = arrayListOf<TitleDto>()
 
+    @CrossOrigin("*")
     @GetMapping
     fun listOfAll(): List<TitleDto> {
         return titlesService.getAll()
     }
 
+    @CrossOrigin("*")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("recommended")
     fun listOfRecommendedForUserWithId(): List<TitleDto> {
@@ -30,6 +32,7 @@ class ContentController {
 
     }
 
+    @CrossOrigin("*")
     @GetMapping("popular")
     fun listOfPopular(@RequestParam(required = false) size: Int?): List<TitleDto> {
         val result = titlesService.getPopularTitles().shuffled()
@@ -41,6 +44,7 @@ class ContentController {
 
     }
 
+    @CrossOrigin("*")
     @PreAuthorize("hasAuthority('ADMIN')")
     @PostMapping("add/{kinopoiskId}")
     fun add(@PathVariable kinopoiskId: Int): String {
@@ -55,6 +59,7 @@ class ContentController {
     @Autowired
     lateinit var titlesService: TitlesService
 
+    @CrossOrigin("*")
     @GetMapping("{kinopoiskId}")
     fun get(@PathVariable kinopoiskId: Int): ResponseEntity<TitleDto> {
         return ResponseEntity.ok(titlesService.getTitleByKId(kinopoiskId))

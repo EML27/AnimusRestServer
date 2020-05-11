@@ -28,6 +28,7 @@ class AuthController {
     @Autowired
     lateinit var userRepository: UserRepository
 
+    @CrossOrigin("*")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("self")
     fun getSelf(): ResponseEntity<UserDto>? {
@@ -44,16 +45,19 @@ class AuthController {
     @Autowired
     private lateinit var signInService: SignInService
 
+    @CrossOrigin("*")
     @PostMapping("/signIn")
     fun signIn(@RequestBody signInData: SignInDto): ResponseEntity<TokenDto> {
         return ResponseEntity.ok(signInService.signIn(signInData))
     }
 
+    @CrossOrigin("*")
     @GetMapping("/encode/{text}")
     fun encode(@PathVariable text: String): String {
         return passwordEncoder.encode(text)
     }
 
+    @CrossOrigin("*")
     @PostMapping("/signUp")
     fun signUp(@RequestBody signUpDto: SignUpDto): ResponseEntity<TokenDto> {
         val user = User().apply {

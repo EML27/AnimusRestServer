@@ -9,19 +9,21 @@ import javax.persistence.*
 @Entity(name = "title")
 @Builder
 @NoArgsConstructor
-class Title(val name: String,
-            val kinopoiskId: Int,
-            val description: String,
-            val posterSource: String,
+class Title(val name: String="",
+            val kinopoiskId: Int=0,
+            val description: String="",
+            val posterSource: String="",
 
             @ManyToMany(cascade = [CascadeType.ALL])
             @JoinTable(name = "title_genre",
                     joinColumns = [JoinColumn(name = "title_id")],
                     inverseJoinColumns = [JoinColumn(name = "genre_id")])
             val genresTable: Set<Genre> = HashSet(),
-            val playerSource: String
+            val playerSource: String=""
 
 ) {
+
+
 
     var currentlyPopular: Boolean = false
 
