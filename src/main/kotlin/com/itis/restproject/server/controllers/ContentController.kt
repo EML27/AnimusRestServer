@@ -96,4 +96,32 @@ class ContentController {
         likeService.setUnlike(userInfo.userId, kinopoiskId)
 
     }
+
+    @CrossOrigin("*")
+    @PostMapping("setPopular/{kinopoiskId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    fun setPopular(@PathVariable kinopoiskId: Int) {
+        titlesService.setPopular(kinopoiskId)
+    }
+
+
+    @CrossOrigin("*")
+    @PostMapping("setUnpopular/{kinopoiskId}")
+    @PreAuthorize("hasAuthority('ADMIN')")
+    fun setUnpopular(@PathVariable kinopoiskId: Int) {
+        titlesService.setUnpopular(kinopoiskId)
+    }
+
+    @CrossOrigin("*")
+    @PostMapping("getIsPopular/{kinopoiskId}")
+    fun getIsPopular(@PathVariable kinopoiskId: Int): Boolean {
+        return titlesService.getIfPopular(kinopoiskId)
+    }
+
+    @CrossOrigin("*")
+    @GetMapping("random")
+    fun getRandom(): TitleDto {
+        return titlesService.getAll().random()
+    }
+
 }

@@ -20,4 +20,9 @@ interface TitlesService {
 
     fun getRecommendedTitlesForUserId(userId: Int):List<TitleDto>
 
+    fun setPopular(kId: Int)
+
+    fun setUnpopular(kId: Int)
+
+    fun getIfPopular(kId: Int): Boolean
 }

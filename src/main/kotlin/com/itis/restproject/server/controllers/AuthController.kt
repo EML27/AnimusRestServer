@@ -60,6 +60,9 @@ class AuthController {
     @CrossOrigin("*")
     @PostMapping("/signUp")
     fun signUp(@RequestBody signUpDto: SignUpDto): ResponseEntity<TokenDto> {
+        if (signUpDto.email == "" || signUpDto.password == "" || signUpDto.username == "") {
+            throw IllegalArgumentException("Fields must not be empty")
+        }
         val user = User().apply {
             userName = signUpDto.username
             email = signUpDto.email

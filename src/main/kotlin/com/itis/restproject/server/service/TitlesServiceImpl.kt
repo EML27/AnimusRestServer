@@ -76,4 +76,20 @@ class TitlesServiceImpl : TitlesService {
 
         return newSet.toList().map { title -> TitleDto.createFromTitle(title) }
     }
+
+    override fun setPopular(kId: Int) {
+        val title = titleRepository.findTitleByKinopoiskId(kId).get()
+        title.currentlyPopular = true
+        titleRepository.save(title)
+    }
+
+    override fun setUnpopular(kId: Int) {
+        val title = titleRepository.findTitleByKinopoiskId(kId).get()
+        title.currentlyPopular = false
+        titleRepository.save(title)
+    }
+
+    override fun getIfPopular(kId: Int): Boolean {
+        return titleRepository.findTitleByKinopoiskId(kId).get().currentlyPopular
+    }
 }
