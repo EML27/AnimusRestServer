@@ -31,6 +31,9 @@ class Title(val name: String="",
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     val titleId: Int? = null
 
+    @ManyToMany(mappedBy = "favouriteTitles")
+    var users: Set<User> = HashSet()
+
     companion object {
         fun createFromResponse(response: TitleResponse, repository: GenreRepository): Title {
             val set = HashSet<Genre>()

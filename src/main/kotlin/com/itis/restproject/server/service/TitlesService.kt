@@ -17,4 +17,7 @@ interface TitlesService {
     fun getPopularTitles(): List<TitleDto>
 
     fun getAll(): List<TitleDto>
+
+    fun getRecommendedTitlesForUserId(userId: Int):List<TitleDto>
+
 }

@@ -6,6 +6,7 @@ data class TitleDto(val name: String,
                     val kinopoiskId: Int,
                     val description: String,
                     val posterSource: String,
+                    val playerUrl: String,
                     val genres: String) {
 
     companion object {
@@ -14,6 +15,7 @@ data class TitleDto(val name: String,
                 title.kinopoiskId,
                 title.description,
                 title.posterSource,
+                title.playerSource,
                 title.genresTable.toString())
 
         fun createFromTitle(titles: List<Title>): List<TitleDto> {

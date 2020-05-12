@@ -2,6 +2,7 @@ package com.itis.restproject.server.controllers
 
 import com.itis.restproject.server.dto.general.TitleDto
 import com.itis.restproject.server.security.jwt.details.UserDetailsImpl
+import com.itis.restproject.server.service.LikeService
 import com.itis.restproject.server.service.TitlesService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
@@ -14,7 +15,12 @@ import org.springframework.web.bind.annotation.*
 @RequestMapping("content")
 class ContentController {
 
-    var repo = arrayListOf<TitleDto>()
+
+    @Autowired
+    lateinit var titlesService: TitlesService
+
+    @Autowired
+    lateinit var likeService: LikeService
 
     @CrossOrigin("*")
     @GetMapping
@@ -25,11 +31,14 @@ class ContentController {
     @CrossOrigin("*")
     @PreAuthorize("isAuthenticated()")
     @GetMapping("recommended")
-    fun listOfRecommendedForUserWithId(): List<TitleDto> {
+    fun listOfRecommendedForUserWithId(@RequestParam(required = false) size: Int?): List<TitleDto> {
         val userInfo = SecurityContextHolder.getContext().authentication.details as UserDetailsImpl
-        TODO("Continue")
-
-
+        val result = titlesService.getRecommendedTitlesForUserId(userInfo.userId)
+        return if (size == null || size <= 0) {
+            result.shuffled()
+        } else {
+            result.shuffled().take(size)
+        }
     }
 
     @CrossOrigin("*")
@@ -56,12 +65,35 @@ class ContentController {
         }
     }
 
-    @Autowired
-    lateinit var titlesService: TitlesService
+    @CrossOrigin("*")
+    @GetMapping("likes/{kinopoiskId}")
+    @PreAuthorize("isAuthenticated()")
+    fun likes(@PathVariable kinopoiskId: Int): Boolean {
+        val userInfo = SecurityContextHolder.getContext().authentication.details as UserDetailsImpl
+        return likeService.isLikedByUser(userInfo.userId, kinopoiskId)
+    }
 
     @CrossOrigin("*")
     @GetMapping("{kinopoiskId}")
     fun get(@PathVariable kinopoiskId: Int): ResponseEntity<TitleDto> {
         return ResponseEntity.ok(titlesService.getTitleByKId(kinopoiskId))
+    }
+
+    @CrossOrigin("*")
+    @PostMapping("{kinopoiskId}")
+    @PreAuthorize("isAuthenticated()")
+    fun setLike(@PathVariable kinopoiskId: Int) {
+        val userInfo = SecurityContextHolder.getContext().authentication.details as UserDetailsImpl
+        likeService.setLike(userInfo.userId, kinopoiskId)
+
+    }
+
+    @CrossOrigin("*")
+    @DeleteMapping("{kinopoiskId}")
+    @PreAuthorize("isAuthenticated()")
+    fun setUnLike(@PathVariable kinopoiskId: Int) {
+        val userInfo = SecurityContextHolder.getContext().authentication.details as UserDetailsImpl
+        likeService.setUnlike(userInfo.userId, kinopoiskId)
+
     }
 }

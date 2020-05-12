@@ -17,6 +17,9 @@ class Genre(var name: String) {
     @ManyToMany(mappedBy = "genresTable")
     var titles: Set<Title> = HashSet()
 
+    @ManyToMany(mappedBy = "favouriteGenres")
+    var users: Set<User> = HashSet()
+
     companion object {
 
         fun getGenreByName(name: String, repository: GenreRepository): Genre {
@@ -30,5 +33,9 @@ class Genre(var name: String) {
                 newGenre
             }
         }
+    }
+
+    override fun toString(): String {
+        return name
     }
 }

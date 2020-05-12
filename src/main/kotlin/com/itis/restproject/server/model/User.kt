@@ -25,6 +25,18 @@ class User() {
     @Enumerated(value = EnumType.STRING)
     lateinit var role: Role
 
+    @ManyToMany(cascade = [CascadeType.ALL])
+    @JoinTable(name = "user_genre",
+            joinColumns = [JoinColumn(name = "user_id")],
+            inverseJoinColumns = [JoinColumn(name = "genre_id")])
+    var favouriteGenres: Set<Genre> = HashSet()
+
+    @ManyToMany(cascade = [CascadeType.ALL])
+    @JoinTable(name = "user_title",
+            joinColumns = [JoinColumn(name = "user_id")],
+            inverseJoinColumns = [JoinColumn(name = "title_id")])
+    var favouriteTitles: Set<Title> = HashSet()
+
 }
 
 

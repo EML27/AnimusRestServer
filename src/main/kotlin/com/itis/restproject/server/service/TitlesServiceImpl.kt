@@ -8,6 +8,7 @@ import com.itis.restproject.server.model.Genre
 import com.itis.restproject.server.model.Title
 import com.itis.restproject.server.repo.GenreRepository
 import com.itis.restproject.server.repo.TitleRepository
+import com.itis.restproject.server.repo.UserRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.beans.factory.annotation.Value
 import org.springframework.security.access.AccessDeniedException
@@ -22,6 +23,9 @@ class TitlesServiceImpl : TitlesService {
 
     @Autowired
     lateinit var genreRepository: GenreRepository
+
+    @Autowired
+    lateinit var userRepository: UserRepository
 
 
     @Value("\${kodikToken}")
@@ -59,5 +63,17 @@ class TitlesServiceImpl : TitlesService {
 
     override fun getAll(): List<TitleDto> {
         return titleRepository.findAll().toList().map { title -> TitleDto.createFromTitle(title) }
+    }
+
+    override fun getRecommendedTitlesForUserId(userId: Int): List<TitleDto> {
+        val user = userRepository.findUserByUserId(userId).get()
+        val newSet = HashSet<Title>()
+        for (genre in user.favouriteGenres) {
+            newSet.addAll(genre.titles)
+        }
+        newSet.removeAll(user.favouriteTitles)
+        newSet.addAll(titleRepository.findByCurrentlyPopularIsTrue())
+
+        return newSet.toList().map { title -> TitleDto.createFromTitle(title) }
     }
 }

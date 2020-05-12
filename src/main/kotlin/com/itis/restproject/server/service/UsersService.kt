@@ -6,4 +6,6 @@ interface UsersService {
     fun getAllUsers(): List<UserDto>
 
     fun deleteUser(userId: Int)
+
+    fun getUserById(id: Int): UserDto
 }

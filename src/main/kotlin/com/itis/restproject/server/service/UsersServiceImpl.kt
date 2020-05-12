@@ -18,4 +18,8 @@ class UsersServiceImpl : UsersService {
     override fun deleteUser(userId: Int) {
         userRepository.deleteById(userId)
     }
+
+    override fun getUserById(id: Int): UserDto {
+        return UserDto.createFromUser(userRepository.findUserByUserId(id).get())
+    }
 }
