@@ -1,6 +1,5 @@
 package com.itis.restproject.server.security.jwt.details
 
-import lombok.Builder
 import org.springframework.security.core.GrantedAuthority
 import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.UserDetails

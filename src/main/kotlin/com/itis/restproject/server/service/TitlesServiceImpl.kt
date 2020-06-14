@@ -1,6 +1,9 @@
 package com.itis.restproject.server.service
 
+import com.fasterxml.jackson.annotation.JsonAutoDetect
+import com.fasterxml.jackson.databind.DeserializationFeature
 import com.fasterxml.jackson.databind.ObjectMapper
+import com.fasterxml.jackson.databind.introspect.VisibilityChecker
 import com.fasterxml.jackson.module.kotlin.readValue
 import com.itis.restproject.server.dto.general.TitleDto
 import com.itis.restproject.server.dto.response.TitleResponse
@@ -44,6 +47,8 @@ class TitlesServiceImpl : TitlesService {
 
     override fun addTitleByKId(kId: Int) {
         val mapper = ObjectMapper()
+        mapper.disable(DeserializationFeature.FAIL_ON_UNKNOWN_PROPERTIES)
+        mapper.setVisibility(VisibilityChecker.Std.defaultInstance().withFieldVisibility(JsonAutoDetect.Visibility.ANY))
         val response = mapper.readValue<TitleResponse>(URL("https://kodikapi.com/search?token=${kodikToken}&kinopoisk_id=${kId}&with_material_data=true"))
         val title = Title.createFromResponse(response, genreRepository)
         titleRepository.save(title)

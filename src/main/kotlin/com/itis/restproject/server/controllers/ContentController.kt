@@ -61,6 +61,7 @@ class ContentController {
             titlesService.addTitleByKId(kinopoiskId)
             return "Success"
         } catch (e: Exception) {
+            e.printStackTrace()
             return "Error"
         }
     }

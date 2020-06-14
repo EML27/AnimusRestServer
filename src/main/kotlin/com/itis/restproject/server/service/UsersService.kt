@@ -8,4 +8,6 @@ interface UsersService {
     fun deleteUser(userId: Int)
 
     fun getUserById(id: Int): UserDto
+
+    fun activateUser(code: String)
 }

@@ -8,7 +8,7 @@ data class UserDto(var id: Int = 0, var name: String = "", var email: String = "
 
     companion object {
         fun createFromUser(user: User): UserDto {
-            return UserDto(user.userId, user.userName, user.email)
+            return UserDto(user.userId ?: 0, user.userName, user.email)
         }
 
         fun createFromUser(users: List<User>): List<UserDto> {

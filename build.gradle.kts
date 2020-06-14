@@ -58,7 +58,10 @@ dependencies {
     implementation(group = "org.slf4j", name = "slf4j-api", version = "1.7.25")
 
     // https://mvnrepository.com/artifact/io.projectreactor/reactor-core
-    implementation(group= "io.projectreactor", name= "reactor-core", version= "3.3.5.RELEASE")
+    implementation(group = "io.projectreactor", name = "reactor-core", version = "3.3.5.RELEASE")
+
+    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-mail
+    implementation(group = "org.springframework.boot", name = "spring-boot-starter-mail", version = "1.2.0.RELEASE")
 
 }
 

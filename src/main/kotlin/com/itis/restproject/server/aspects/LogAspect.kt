@@ -1,9 +1,11 @@
 package com.itis.restproject.server.aspects
 
 import com.itis.restproject.server.dto.general.SignInDto
+import com.itis.restproject.server.dto.general.SignUpDto
 import lombok.extern.slf4j.Slf4j
 import org.aspectj.lang.JoinPoint
 import org.aspectj.lang.annotation.After
+import org.aspectj.lang.annotation.Around
 import org.aspectj.lang.annotation.Aspect
 import org.aspectj.lang.annotation.Before
 import org.slf4j.Logger
@@ -28,5 +30,12 @@ class LogAspect {
         val args = joinPoint.args
         val signInDto = args[0] as SignInDto
         log.info("User with email ${signInDto.email} authenticated")
+    }
+
+    @Around(value = "execution(* com.itis.restproject.server.service.SignUpService.signUp(*))")
+    fun around(joinPoint: JoinPoint) {
+        val args = joinPoint.args
+        val signUpDto = args[0] as SignUpDto
+        log.info("User with name ${signUpDto.username} registered")
     }
 }

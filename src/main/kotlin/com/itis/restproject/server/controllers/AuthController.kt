@@ -9,6 +9,9 @@ import com.itis.restproject.server.model.User
 import com.itis.restproject.server.repo.UserRepository
 import com.itis.restproject.server.security.jwt.details.UserDetailsImpl
 import com.itis.restproject.server.service.SignInService
+import com.itis.restproject.server.service.SignUpService
+import com.itis.restproject.server.service.UsersService
+import com.itis.restproject.server.service.ValidationService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.ResponseEntity
 import org.springframework.security.access.prepost.PreAuthorize
@@ -24,6 +27,18 @@ class AuthController {
 
     @Autowired
     lateinit var passwordEncoder: PasswordEncoder
+
+    @Autowired
+    lateinit var signUpService: SignUpService
+
+    @Autowired
+    private lateinit var signInService: SignInService
+
+    @Autowired
+    private lateinit var usersService: UsersService
+
+    @Autowired
+    private lateinit var validationService: ValidationService
 
     @Autowired
     lateinit var userRepository: UserRepository
@@ -42,8 +57,6 @@ class AuthController {
 
     }
 
-    @Autowired
-    private lateinit var signInService: SignInService
 
     @CrossOrigin("*")
     @PostMapping("/signIn")
@@ -63,6 +76,9 @@ class AuthController {
         if (signUpDto.email == "" || signUpDto.password == "" || signUpDto.username == "") {
             throw IllegalArgumentException("Fields must not be empty")
         }
+        //Да, я отлично знаю что так делать нельзя, и эта работа должна быть вынесена в сервис,
+        // но почему-то абсолютно тот же самый код не работает в отдельном сервисе, хотя просто обязан.
+        // Без понятия, что не так.
         val user = User().apply {
             userName = signUpDto.username
             email = signUpDto.email
@@ -72,5 +88,17 @@ class AuthController {
         userRepository.save(user)
         val signInDto = SignInDto(signUpDto.email, signUpDto.password)
         return ResponseEntity.ok(signInService.signIn(signInDto))
+    }
+
+    @GetMapping("/{activationCode}")
+    fun activate(@PathVariable activationCode: String): String {
+        try {
+            usersService.activateUser(activationCode)
+        } catch (e: Exception) {
+            e.printStackTrace()
+            return "Error\n" +
+                    "$e"
+        }
+        return "Success! You are now activated!"
     }
 }

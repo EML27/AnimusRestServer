@@ -22,4 +22,10 @@ class UsersServiceImpl : UsersService {
     override fun getUserById(id: Int): UserDto {
         return UserDto.createFromUser(userRepository.findUserByUserId(id).get())
     }
+
+    override fun activateUser(code: String) {
+        val user = userRepository.findUserByActivationCode(code).get()
+        user.activated = true
+        userRepository.save(user)
+    }
 }

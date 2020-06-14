@@ -13,7 +13,7 @@ import javax.persistence.*
 class User() {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    var userId: Int = 0
+    var userId: Int? = null
 
     @Column(unique = true)
     lateinit var email: String
@@ -24,6 +24,10 @@ class User() {
 
     @Enumerated(value = EnumType.STRING)
     lateinit var role: Role
+
+    var activationCode: String?=null
+
+    var activated: Boolean = false
 
     @ManyToMany(cascade = [CascadeType.ALL])
     @JoinTable(name = "user_genre",
